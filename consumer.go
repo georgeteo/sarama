@@ -421,11 +421,12 @@ func (child *partitionConsumer) AsyncClose() {
 func (child *partitionConsumer) Close() error {
 	child.AsyncClose()
 
-	go withRecover(func() {
-		for range child.messages {
-			// drain
-		}
-	})
+	// Do not drain because may lose messages.
+	//go withRecover(func() {
+	//	for range child.messages {
+	//		// drain
+	//	}
+	//})
 
 	var errors ConsumerErrors
 	for err := range child.errors {
